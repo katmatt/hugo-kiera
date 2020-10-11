@@ -1,6 +1,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="{{ .Site.Params.description | default "The HTML5 Herald" }}" />
+<meta name="description" content="{{ with .Description }}
+{{ . }}
+{{ else }}
+{{if .IsPage}}{{ .Summary }}
+{{ else }}{{ with .Site.Params.description }}
+{{ . }}
+{{ end }}{{ end }}{{ end }}" />
 <meta name="author" content="{{ .Params.Author | default .Site.Author.name }}" />
 {{- with .OutputFormats.Get "rss" -}}
 	{{ printf `<link rel="%s" type="%s+%s" href="%s" title="%s" />` .Rel .MediaType.Type .MediaType.Suffix .Permalink $.Site.Title | safeHTML }}
